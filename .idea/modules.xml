@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/TorrentLib.iml" filepath="$PROJECT_DIR$/TorrentLib.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/torrentclient/torrentclient.iml" filepath="$PROJECT_DIR$/torrentclient/torrentclient.iml" />
     </modules>
   </component>
 </project>
