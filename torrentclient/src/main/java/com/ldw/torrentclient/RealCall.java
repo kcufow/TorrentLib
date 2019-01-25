@@ -97,6 +97,7 @@ public class RealCall implements Call {
         private Request mRequest;
         private int mCurrentStatus;
         private boolean firstStart;
+
         private AlertListener mAlertListener = new AlertListener() {
             @Override
             public int[] types() {
@@ -305,6 +306,10 @@ public class RealCall implements Call {
 
             mS.stop();
             mS.removeListener(mAlertListener);
+            if (isCanceled){
+                FileUtils.recursiveDelete(new File(savePath,torrentInfo.name()));
+                FileUtils.recursiveDelete(new File(savePath,mRequest.saveFileName));
+            }
         }
 
         private void onError(final Exception e) {
@@ -371,6 +376,10 @@ public class RealCall implements Call {
 
         public boolean isCanceled() {
             return isCanceled;
+        }
+
+        public Call get(){
+            return RealCall.this;
         }
     }
 

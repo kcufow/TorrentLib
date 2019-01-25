@@ -8,12 +8,13 @@ public class TorrentClient implements Call.Factory {
 
       Dispatcher mDispatcher;
 
-     int maxDownloadRate;
-     int maxUploadRate;
+    public  int maxDownloadRate;
+    public  int maxUploadRate;
 
-     boolean saveTorrent;
-     boolean deleteFileOnStop;
-     boolean needsRename;
+    public boolean saveTorrent;
+    public boolean deleteFileOnStop;
+    public  boolean needsRename;
+    public boolean autoDownloadNext;
 
     public Dispatcher dispatcher() {
         return mDispatcher;
@@ -32,6 +33,7 @@ public class TorrentClient implements Call.Factory {
          saveTorrent = builder.saveTorrent;
          deleteFileOnStop = builder.deleteFileOnStop;
          needsRename = builder.needsRename;
+         autoDownloadNext = builder.autoDownloadNext;
 
 
     }
@@ -43,37 +45,39 @@ public class TorrentClient implements Call.Factory {
 
     public static final class Builder{
 
+        private boolean autoDownloadNext;
         private  Dispatcher mDispatcher;
 
         private int maxDownloadRate;
         private int maxUploadRate;
 
-        public Builder setDispatcher(Dispatcher dispatcher) {
-            mDispatcher = dispatcher;
+        public Builder autoDownloadNext(boolean autoDownloadNext) {
+            this.autoDownloadNext = autoDownloadNext;
+            mDispatcher.setAutoDownloadNext(autoDownloadNext);
             return this;
         }
 
-        public Builder setMaxDownloadRate(int maxDownloadRate) {
+        public Builder maxDownloadRate(int maxDownloadRate) {
             this.maxDownloadRate = maxDownloadRate;
             return this;
         }
 
-        public Builder setMaxUploadRate(int maxUploadRate) {
+        public Builder maxUploadRate(int maxUploadRate) {
             this.maxUploadRate = maxUploadRate;
             return this;
         }
 
-        public Builder setSaveTorrent(boolean saveTorrent) {
+        public Builder saveTorrent(boolean saveTorrent) {
             this.saveTorrent = saveTorrent;
             return this;
         }
 
-        public Builder setDeleteFileOnStop(boolean deleteFileOnStop) {
+        public Builder deleteFileOnStop(boolean deleteFileOnStop) {
             this.deleteFileOnStop = deleteFileOnStop;
             return this;
         }
 
-        public Builder setNeedsRename(boolean needsRename) {
+        public Builder needsRename(boolean needsRename) {
             this.needsRename = needsRename;
             return this;
         }

@@ -12,22 +12,22 @@ public class Request {
     /**
      * 网络torrent路径，或者本地torrent路径暂不支持磁力链接
      */
-    String url;
-    String savePath;
+    public String url;
+    public String savePath;
     /**
      * 存储时保存的名字
      */
-    String saveFileName;
+    public String saveFileName;
     /**
      * 该request的uuid标识，不指定时会以torrent的名称为值
      */
-    String uuid;
+    public String uuid;
     /**
      * 当前request的索引值，默认会自增长 从0开始
      */
-    int index;
+    public int index;
 
-    boolean isNativeTorrent;
+    public boolean isNativeTorrent;
 
     private Request(Builder builder) {
         this.url = builder.url;

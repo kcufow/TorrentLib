@@ -32,6 +32,7 @@ public final class Dispatcher {
     /** Running asynchronous calls. Includes canceled calls that haven't finished yet. */
     private final Deque<DownloadCall> runningAsyncCalls = new ArrayDeque<>();
     private boolean cancelAll;
+    private boolean autoNext;
 
     public void setDownloadRequest(int requestSize){
         if (requestSize<0 || requestSize>maxDownloadRequest){
@@ -85,6 +86,22 @@ public final class Dispatcher {
             if (runningAsyncCalls.size() >= downloadRequest) return; // Reached max capacity.
         }
     }
+    public void cancel(Call call){
+        for (DownloadCall runningAsyncCall : runningAsyncCalls) {
+            if (call == runningAsyncCall.get()){
+                runningAsyncCall.cancel();
+                break;
+            }
+        }
+        Iterator<DownloadCall> iterator = readyAsyncCalls.iterator();
+        while (iterator.hasNext()) {
+            DownloadCall downloadCall = iterator.next();
+            if (call == downloadCall.get()){
+                iterator.remove();
+                break;
+            }
+        }
+    }
 
     public void  cancelAll(){
         cancelAll =true;
@@ -92,5 +109,10 @@ public final class Dispatcher {
             runningAsyncCall.cancel();
         }
         readyAsyncCalls.clear();
+    }
+
+    public void setAutoDownloadNext(boolean autoDownloadNext) {
+
+        this.autoNext= autoDownloadNext;
     }
 }
