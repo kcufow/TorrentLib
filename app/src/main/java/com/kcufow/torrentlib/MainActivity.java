@@ -27,9 +27,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initView() {
-        Button pause = findViewById(R.id.btn_pause);
-        Button resum = findViewById(R.id.btn_resume);
-        Button stop = findViewById(R.id.btn_stop);
+        Button pause = (Button) findViewById(R.id.btn_pause);
+        Button resum = (Button) findViewById(R.id.btn_resume);
+        Button stop = (Button) findViewById(R.id.btn_stop);
         pause.setOnClickListener(this);
         resum.setOnClickListener(this);
         stop.setOnClickListener(this);

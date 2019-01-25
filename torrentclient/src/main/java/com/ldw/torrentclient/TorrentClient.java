@@ -15,6 +15,7 @@ public class TorrentClient implements Call.Factory {
     public boolean deleteFileOnStop;
     public  boolean needsRename;
     public boolean autoDownloadNext;
+    public boolean showLog;
 
     public Dispatcher dispatcher() {
         return mDispatcher;
@@ -34,6 +35,7 @@ public class TorrentClient implements Call.Factory {
          deleteFileOnStop = builder.deleteFileOnStop;
          needsRename = builder.needsRename;
          autoDownloadNext = builder.autoDownloadNext;
+         showLog = builder.showLog;
 
 
     }
@@ -45,6 +47,7 @@ public class TorrentClient implements Call.Factory {
 
     public static final class Builder{
 
+        private boolean showLog;
         private boolean autoDownloadNext;
         private  Dispatcher mDispatcher;
 
@@ -56,7 +59,10 @@ public class TorrentClient implements Call.Factory {
             mDispatcher.setAutoDownloadNext(autoDownloadNext);
             return this;
         }
-
+        public Builder showLog(boolean showLog) {
+            this.showLog = showLog;
+            return this;
+        }
         public Builder maxDownloadRate(int maxDownloadRate) {
             this.maxDownloadRate = maxDownloadRate;
             return this;

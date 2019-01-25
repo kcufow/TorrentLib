@@ -107,6 +107,7 @@ public class RealCall implements Call {
             @Override
             public void alert(Alert<?> alert) {
                 AlertType type = alert.type();
+                LogUtil.v("torrentClient","alert "+type,client.showLog);
 
                 switch (type) {
                     case ADD_TORRENT:
