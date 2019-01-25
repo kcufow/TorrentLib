@@ -31,6 +31,7 @@ public final class Dispatcher {
 
     /** Running asynchronous calls. Includes canceled calls that haven't finished yet. */
     private final Deque<DownloadCall> runningAsyncCalls = new ArrayDeque<>();
+    private boolean cancelAll;
 
     public void setDownloadRequest(int requestSize){
         if (requestSize<0 || requestSize>maxDownloadRequest){
@@ -62,7 +63,8 @@ public final class Dispatcher {
     public void finished(DownloadCall downloadCall) {
         synchronized (this) {
             if (!runningAsyncCalls.remove(downloadCall)) throw new AssertionError("Call wasn't in-flight!");
-             promoteCalls();
+
+            if (!cancelAll)promoteCalls();
         }
 
     }
@@ -85,8 +87,10 @@ public final class Dispatcher {
     }
 
     public void  cancelAll(){
+        cancelAll =true;
         for (DownloadCall runningAsyncCall : runningAsyncCalls) {
             runningAsyncCall.cancel();
         }
+        readyAsyncCalls.clear();
     }
 }
