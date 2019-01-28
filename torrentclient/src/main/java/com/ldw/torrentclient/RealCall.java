@@ -195,6 +195,7 @@ public class RealCall implements Call {
 
         private void onFinish() {
             mCurrentStatus = STATUS_FINISH;
+            mSignal.countDown();
             if (callback != null) {
                 callback.onCompleted(mRequest);
             }

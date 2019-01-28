@@ -1,5 +1,10 @@
 package com.kcufow.torrentlib;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,8 +16,11 @@ import com.ldw.torrentclient.Callback;
 import com.ldw.torrentclient.Request;
 import com.ldw.torrentclient.TorrentClient;
 
+import java.io.File;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "MainActivity";
+    private static final int CODE_REQUEST_PERMISSION = 100;
     private TorrentClient mClient;
     private Call mCall;
     private float preProgress;
@@ -22,17 +30,57 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
+        initPermission();
+//        initData();
+    }
 
-        initData();
+    private void initPermission() {
+        if (Build.VERSION.SDK_INT<Build.VERSION_CODES.M)return;
+        if (ActivityCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                !=PackageManager.PERMISSION_GRANTED){
+
+            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    ,Manifest.permission.READ_EXTERNAL_STORAGE},CODE_REQUEST_PERMISSION);
+
+        }else {
+            createFile();
+        }
+
+    }
+
+    private void createFile() {
+        File file = new File("/mnt/media_rw/sda1/dcp/torrent/test");
+        if (!file.exists()){
+            if (!file.mkdirs()){
+                Log.e(TAG, "file 创建失败 " );
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions
+            , @NonNull int[] grantResults) {
+
+        if (requestCode == CODE_REQUEST_PERMISSION){
+
+            if (grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED){
+               createFile();
+            }
+        }
+
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     private void initView() {
         Button pause = (Button) findViewById(R.id.btn_pause);
         Button resum = (Button) findViewById(R.id.btn_resume);
         Button stop = (Button) findViewById(R.id.btn_stop);
+        Button start = (Button) findViewById(R.id.btn_start);
         pause.setOnClickListener(this);
         resum.setOnClickListener(this);
         stop.setOnClickListener(this);
+        start.setOnClickListener(this);
 
     }
 
@@ -41,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Request request = new Request.Builder()
                 .url("http://192.168.1.131/video/fengrenjiledui.mp4.torrent")
-                .savePath("/sdcard/torrent")
+                .savePath("/mnt/media_rw/sda1/dcp/torrent")
                 .savedFileName("gongfuxiongmao3.mp4")
                 .build();
         mCall = mClient.newCall(request);
@@ -108,6 +156,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+
+            case R.id.btn_start:
+             initData();
+                break;
             case R.id.btn_pause:
                 if (mCall != null) {
                     mCall.pause();
