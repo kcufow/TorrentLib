@@ -2,6 +2,7 @@ package com.ldw.torrentclient;
 
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.frostwire.jlibtorrent.AlertListener;
 import com.frostwire.jlibtorrent.SessionManager;
@@ -107,7 +108,7 @@ public class RealCall implements Call {
             @Override
             public void alert(Alert<?> alert) {
                 AlertType type = alert.type();
-                LogUtil.v("torrentClient","alert "+type,client.showLog);
+                L.v("torrentClient","alert "+type);
 
                 switch (type) {
                     case ADD_TORRENT:
@@ -237,6 +238,8 @@ public class RealCall implements Call {
                         }
                     }
                 });
+
+                L.v("torrentClient", "downloadTorrent: ");
                 URL url = new URL(torrentUrl);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
@@ -264,6 +267,8 @@ public class RealCall implements Call {
                     torrentDownload(torrentInfo, mRequest.savePath);
                 }
             } catch (IOException | IllegalArgumentException e) {
+
+                L.v("torrentClient", "downloadTorrent: error ");
                 onError(new Exception("torrent download error"));
             }
 

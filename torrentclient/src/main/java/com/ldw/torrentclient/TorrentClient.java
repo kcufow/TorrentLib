@@ -61,6 +61,7 @@ public class TorrentClient implements Call.Factory {
         }
         public Builder showLog(boolean showLog) {
             this.showLog = showLog;
+            L.isDebug = showLog;
             return this;
         }
         public Builder maxDownloadRate(int maxDownloadRate) {
