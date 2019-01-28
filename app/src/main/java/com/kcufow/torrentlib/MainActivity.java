@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mClient = new TorrentClient();
 
         Request request = new Request.Builder()
-                .url("/sdcard/torrent/gongfuxiongmao3.mp4.torrent")
+                .url("http://192.168.1.131/video/fengrenjiledui.mp4.torrent")
                 .savePath("/sdcard/torrent")
                 .savedFileName("gongfuxiongmao3.mp4")
                 .build();

@@ -113,8 +113,15 @@ public class RealCall implements Call {
                 switch (type) {
                     case ADD_TORRENT:
                         ((AddTorrentAlert) alert).handle().resume();
+
+
                         if (callback != null) {
-                            callback.onPrepare(request());
+                            ThreadUtils.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    callback.onPrepare(request());
+                                }
+                            });
                         }
                         break;
                     case BLOCK_FINISHED:
@@ -156,7 +163,13 @@ public class RealCall implements Call {
                         break;
                     case TORRENT_PAUSED:
                         if (callback != null) {
-                            callback.onPause(mRequest);
+                            ThreadUtils.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    callback.onPause(mRequest);
+                                }
+                            });
+
                         }
 
                         break;
