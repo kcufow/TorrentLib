@@ -161,6 +161,8 @@ public class RealCall implements Call {
                         }
                             firstStart = false;
                         break;
+                    case ALERTS_DROPPED:
+                        break;
                     case TORRENT_PAUSED:
                         if (callback != null) {
                             ThreadUtils.runOnUiThread(new Runnable() {
@@ -350,9 +352,6 @@ public class RealCall implements Call {
                 return;
             }
 
-            if (mS==null||!(mS.isRunning() || mS.isDhtRunning())){
-                return ;
-            }
             if (callback!=null){
                 ThreadUtils.runOnUiThread(new Runnable() {
                     @Override
@@ -361,6 +360,7 @@ public class RealCall implements Call {
                     }
                 });
             }
+            mCurrentStatus = STATUS_CANCELED;
             if (mS != null && (mS.isRunning() || mS.isDhtRunning())) {
                 mSignal.countDown();
 
